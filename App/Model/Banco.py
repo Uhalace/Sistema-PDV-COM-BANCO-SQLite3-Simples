@@ -39,6 +39,10 @@ class Banco:
         self.cursor.execute("SELECT MAX(numero_nota) FROM vendas")
         resultado = self.cursor.fetchone()
         return resultado[0] + 1 if resultado[0] is not None else 1
+    
+    def listar_numeros_notas(self):
+        self.cursor.execute("SELECT DISTINCT numero_nota FROM vendas")
+        return [row[0] for row in self.cursor.fetchall()]
 
     def fechar_conexao(self):
         self.conexao.close()

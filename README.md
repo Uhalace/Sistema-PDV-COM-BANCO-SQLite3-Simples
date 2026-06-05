@@ -1,67 +1,140 @@
-# PDV Notas
+<h1 align="center">
+  <img src="./Icones/nota.jpg" alt="Logo PDV Notas" width="120" style="border-radius: 20%;"><br>
+  PDV Notas
+</h1>
 
-![Status](https://img.shields.io/badge/Status-Em_Desenvolvimento-yellow)
+<p align="center">
+  <a href="#-sobre-o-projeto">Sobre</a> •
+  <a href="#-funcionalidades">Funcionalidades</a> •
+  <a href="#%EF%B8%8F-tecnologias">Tecnologias</a> •
+  <a href="#-arquitetura">Arquitetura</a> •
+  <a href="#-como-executar">Como Executar</a> •
+  <a href="#-roadmap-próximos-passos">Roadmap</a>
+</p>
 
-O **PDV Notas** é um sistema de Ponto de Venda (PDV) desktop simples desenvolvido em Python. Ele permite o cadastro, listagem e impressão de notas/cupons não fiscais de forma rápida e intuitiva.
+<p align="center">
+  <img alt="Status do Projeto" src="https://img.shields.io/badge/Status-Em%20Desenvolvimento-yellow?style=for-the-badge">
+  <img alt="Linguagem Principal" src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white">
+  <img alt="Banco de Dados" src="https://img.shields.io/badge/SQLite-07405E?style=for-the-badge&logo=sqlite&logoColor=white">
+</p>
+
+---
+
+## 💻 Sobre o Projeto
+
+O **PDV Notas** é um sistema desktop simples e direto, projetado para funcionar como um Ponto de Venda (PDV) para emissão de notas ou cupons não fiscais. Com foco em pequenos comércios ou prestadores de serviços autônomos, o aplicativo oferece uma interface limpa para registrar vendas, gerenciar o histórico e emitir comprovantes impressos de forma ágil.
+
+*Nota: Este projeto possui fins de estudo e facilitação de fluxos simples, e os cupons gerados não possuem validade fiscal (NFC-e/SAT).*
+
+<!-- Placeholder para uma futura screenshot -->
+<!-- <p align="center"><img src="./assets/screenshot.png" alt="Tela Principal do Sistema" width="600"></p> -->
+
+---
 
 ## 🚀 Funcionalidades
 
-- **Cadastrar Notas:** Adição de itens, quantidades e valores, com cálculo automático de subtotais e controle por número de nota.
-- **Listar Vendas:** Visualização do histórico completo de vendas cadastradas no sistema.
-- **Imprimir Nota:** Geração de um "Cupom Fiscal" (sem validade fiscal) em formato de texto (`.txt`) e envio direto para a fila de impressão padrão do sistema operacional.
+- **[+] Novo Cadastro de Nota:** 
+  - Inserção ágil de itens, com campos para valor unitário e quantidade.
+  - Cálculo automático de subtotal por item.
+  - Agrupamento inteligente de múltiplos itens na mesma nota/venda.
+- **[🔎] Consulta de Vendas:**
+  - Visualização em tabela de todo o histórico de vendas registrado no sistema.
+- **[🖨️] Emissão de Comprovante:**
+  - Geração de layout de "Cupom" estruturado em texto plano (`.txt`).
+  - Envio automatizado para a fila de impressão padrão do sistema operacional, facilitando o uso com impressoras térmicas genéricas.
 
-## 🛠️ Tecnologias Utilizadas
+---
 
-- **Python:** Linguagem principal do projeto.
-- **[PySimpleGUI](https://pysimplegui.readthedocs.io/):** Biblioteca utilizada para a construção da Interface Gráfica de Usuário (GUI).
-- **SQLite3:** Banco de dados relacional leve embutido utilizado para armazenar as vendas de forma persistente e local.
+## 🛠️ Tecnologias
 
-## 📁 Estrutura do Projeto
+As seguintes ferramentas e bibliotecas foram utilizadas na construção do projeto:
 
-O projeto segue um padrão de arquitetura baseado em **MVC (Model-View-Controller)** para melhor organização do código:
+- **[Python](https://www.python.org/):** Linguagem core da aplicação.
+- **[PySimpleGUI](https://pysimplegui.readthedocs.io/):** Responsável por abstrair bibliotecas gráficas complexas e entregar a interface do usuário.
+- **[SQLite3](https://docs.python.org/3/library/sqlite3.html):** Banco de dados relacional embarcado, garantindo que o software funcione de maneira portátil, sem necessidade de instalar um servidor de banco de dados (ex: MySQL, PostgreSQL).
 
-```
+---
+
+## 📂 Arquitetura
+
+Para manter o código limpo, escalável e de fácil manutenção, o projeto foi estruturado seguindo os princípios do padrão **MVC (Model-View-Controller)** adaptado para desktop:
+
+```text
 Projeto 2 com UI/
 ├── App/
-│   ├── Banco/             # Arquivo do banco de dados SQLite (base.db)
-│   ├── Controller/        # Regras de negócio e integração UI/Banco (Cadastrar, Listar)
-│   ├── Functions/         # Funções auxiliares (ex: formatação monetária)
-│   └── Model/             # Conexão e operações CRUD com o banco de dados (Banco.py)
-├── Icones/                # Ícones utilizados na interface do usuário
-└── main.py                # Ponto de entrada da aplicação
+│   ├── Banco/             # Arquivo do banco de dados SQLite persistente (base.db)
+│   ├── Controller/        # Intermediários: Capturam eventos da View e chamam as regras de negócio
+│   │   ├── CadastrarNotaController.py
+│   │   └── ListarNotaController.py
+│   ├── Functions/         # Helpers e utilitários globais (ex: formatação de moeda R$)
+│   └── Model/             # Camada de Dados: Conexão e queries SQL encapsuladas
+│       └── Banco.py
+├── Icones/                # Recursos de mídia (ícones da janela, logo)
+└── main.py                # Ponto de entrada (Entrypoint) e renderização principal (View)
 ```
 
-## ⚙️ Como Executar o Projeto
+---
 
-### Pré-requisitos
+## ⚙️ Como Executar
 
-- **Python 3.x** instalado na sua máquina.
+Siga os passos abaixo para rodar o projeto no seu ambiente local.
 
-### Passos para rodar localmente
+### 1. Pré-requisitos
+Certifique-se de ter o **Python 3.x** instalado na sua máquina. Verifique abrindo o terminal e digitando:
+```bash
+python --version
+```
 
-1. Clone ou faça o download deste repositório para a sua máquina.
-2. Navegue até a pasta raiz do projeto via terminal.
-3. (Opcional) Recomenda-se criar um ambiente virtual (venv):
-   ```bash
-   python -m venv venv
-   # Ative no Windows:
-   venv\Scripts\activate
-   # Ative no Linux/Mac:
-   source venv/bin/activate
-   ```
-4. Instale as dependências necessárias. Você precisará instalar o PySimpleGUI:
-   ```bash
-   pip install PySimpleGUI
-   ```
-5. Execute o arquivo principal da aplicação:
-   ```bash
-   python main.py
-   ```
+### 2. Passo a Passo
 
-## ⚠️ Status do Projeto
+```bash
+# Clone este repositório
+$ git clone <link-do-seu-repositorio>
 
-Este projeto **ainda está em desenvolvimento**. Novas funcionalidades e melhorias de código estão sendo implementadas.
+# Acesse a pasta do projeto no terminal/cmd
+$ cd "Projeto 2 com UI"
 
-## 👨‍💻 Autor
+# (Opcional, mas recomendado) Crie um ambiente virtual
+$ python -m venv venv
 
-Desenvolvido por **Uhalace de Souza**.
+# Ative o ambiente virtual
+# No Windows:
+$ venv\Scripts\activate
+# No Linux/MacOS:
+$ source venv/bin/activate
+
+# Instale as dependências (PySimpleGUI)
+$ pip install PySimpleGUI
+
+# Execute a aplicação
+$ python main.py
+```
+
+---
+
+## 🗺️ Roadmap (Próximos Passos)
+
+Como o projeto está em desenvolvimento contínuo, aqui estão algumas melhorias mapeadas para o futuro:
+
+- [ ] Criação de uma tela de gerenciamento de Produtos (CRUD).
+- [ ] Implementação de dashboard com gráficos básicos de faturamento diário/mensal.
+- [ ] Exportação do histórico de vendas para Excel/CSV.
+- [ ] Opção de configurar os dados do estabelecimento pela interface (atualmente estão _hardcoded_ no `main.py`).
+
+---
+
+## 🤝 Contribuição
+
+Sinta-se à vontade para contribuir com o projeto! Se você encontrar algum bug ou tiver uma ideia de funcionalidade:
+
+1. Faça um **Fork** do projeto.
+2. Crie uma nova branch com a sua feature: `git checkout -b minha-feature`
+3. Faça commit das suas alterações: `git commit -m 'Feat: Minha nova feature'`
+4. Faça push para a branch: `git push origin minha-feature`
+5. Abra um **Pull Request**.
+
+---
+
+<p align="center">
+  Desenvolvido com dedicação por <b>Uhalace de Souza</b>.
+</p>

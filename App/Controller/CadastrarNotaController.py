@@ -6,13 +6,31 @@ class CadastrarNotaController:
 
     def cadastrar_nota(self):
         layout_cadnota = [
-            [sg.Text("Número da nota: "), sg.Input(default_text=str(self.banco.numero_nota_bd()),key="nunota")],
-            [sg.Text("Nome do item: "), sg.Input(key="item")],
-            [sg.Text("Valor: "), sg.Input(key="valor")],
-            [sg.Text("Quantidade: "), sg.Input(key="quantidade")],
-            [sg.Text("", key="msg", text_color="red")],
-            [sg.Button("Salvar"), sg.Button("Cancelar")]
-        ]
+    [sg.Frame(
+        "Cadastro de Nota",
+        [
+            [sg.Text("Número da nota:", size=(15, 1)),
+             sg.Input(default_text=str(self.banco.numero_nota_bd()), key="nunota")],
+
+            [sg.Text("Nome do item:", size=(15, 1)),
+             sg.Input(key="item")],
+
+            [sg.Text("Valor:", size=(15, 1)),
+             sg.Input(key="valor")],
+
+            [sg.Text("Quantidade:", size=(15, 1)),
+             sg.Input(key="quantidade")],
+
+            [sg.Text("", key="msg", text_color="red")]
+        ],
+        expand_x=True
+    )],
+
+    [sg.Push(),
+     sg.Button("Salvar", size=(12, 2)),
+     sg.Button("Cancelar", size=(12, 2)),
+     sg.Push()]
+     ]
 
         window_cadnota = sg.Window("Cadastro de Nota", layout_cadnota, modal=True, icon="./icones/nota.ico")
 
