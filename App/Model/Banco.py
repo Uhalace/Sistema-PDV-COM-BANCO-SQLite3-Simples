@@ -35,6 +35,10 @@ class Banco:
     def imprimir_nota(self, numero_nota):
         self.cursor.execute("SELECT * FROM vendas WHERE numero_nota = ?", (numero_nota,))
         return self.cursor.fetchall()
+
+    def obter_vendas_por_nota(self, numero_nota):
+        return self.imprimir_nota(numero_nota)
+
     def numero_nota_bd(self):
         self.cursor.execute("SELECT MAX(numero_nota) FROM vendas")
         resultado = self.cursor.fetchone()
