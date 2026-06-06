@@ -5,6 +5,7 @@ from App.Controller.ListarNotaController import ListarNotaController
 from App.Functions.format import format_reais
 from App.Model.Banco import Banco
 from App.Services.nota_printer import formatar_vendas_para_tabela, imprimir_arquivo_nota
+from App.Controller.CadastroEstoqueController import CadastrarEstoqueController
 
 
 def criar_janela_principal():
@@ -18,7 +19,8 @@ def criar_janela_principal():
             sg.Button("Listar Vendas", size=(18, 2), font=("Segoe UI", 10, "bold")),
             sg.Button("Imprimir Nota", size=(18, 2), font=("Segoe UI", 10, "bold"))
         ],
-        [sg.Button("Sair", size=(18, 2), font=("Segoe UI", 10, "bold"))],
+        [sg.Button("Cadastrar Estoque", size=(18, 2), font=("Segoe UI", 10, "bold")),
+         sg.Button("Sair", size=(18, 2), font=("Segoe UI", 10, "bold"))],
         [
             sg.Text(
                 "Desenvolvido por: Uhalace de Souza",
@@ -40,18 +42,18 @@ def selecionar_nota_para_impressao(banco):
         [
             sg.Listbox(
                 values=notas,
-                size=(20, min(len(notas), 10)),
-                key="-NOTA-"
+                size=(400, min(len(notas), 10)),
+                key="-NOTA-", font=("Segoe UI", 12, "bold")
             )
         ],
-        [sg.Button("OK"), sg.Button("Cancelar")]
+        [sg.Button("OK", size=(18, 2), font=("Segoe UI", 10, "bold")), sg.Button("Cancelar", size=(18, 2), font=("Segoe UI", 10, "bold"))]
     ]
 
     janela_selecao = sg.Window(
         "Selecionar Nota",
         layout_selecao,
         modal=True,
-        size=(200, 200),
+        size=(400, 280),
         icon="./Icones/nota.ico"
     )
 
@@ -89,12 +91,24 @@ def mostrar_nota_para_impressao(numero_nota, banco):
     vendas_formatadas, total_cents = formatar_vendas_para_tabela(vendas_nota)
 
     layout_impressao = [
-        [sg.Text(f"Nota Fiscal - Número: {numero_nota}", font=("Helvetica", 16))],
+        [sg.Text(f"Nota Fiscal - Número: {numero_nota}", font=("Helvetica", 16, "bold"))],
         [
             sg.Table(
                 values=vendas_formatadas,
                 headings=["Item", "Quantidade", "Valor", "Subtotal"],
-                auto_size_columns=True
+                auto_size_columns=False,
+                col_widths=[30, 12, 16, 16],
+                justification="center",
+                text_color="#000000",
+                background_color="#FFFFFF",
+                header_background_color="#404040",
+                header_text_color="#FFFFFF",
+                header_font=("Segoe UI", 11, "bold"),
+                font=("Segoe UI", 11),
+                row_height=28,
+                alternating_row_color="#F7F7F7",
+                expand_x=True,
+                pad=((0, 0), (10, 10))
             )
         ],
         [sg.Text(
@@ -103,10 +117,10 @@ def mostrar_nota_para_impressao(numero_nota, banco):
             justification='right',
             pad=((0, 0), (10, 0))
         )],
-        [sg.Button("Imprimir"), sg.Button("Fechar")]
+        [sg.Button("Imprimir", size=(18, 2), font=("Segoe UI", 10, "bold")), sg.Button("Fechar", size=(18, 2), font=("Segoe UI", 10, "bold"))]
     ]
 
-    window_impressao = sg.Window("Imprimir Nota", layout_impressao, icon="./Icones/nota.ico")
+    window_impressao = sg.Window("Imprimir Nota", layout_impressao, size=(600,500), icon="./Icones/nota.ico")
 
     while True:
         event_impressao, _ = window_impressao.read()
@@ -137,6 +151,9 @@ def main():
             numero_nota = selecionar_nota_para_impressao(banco)
             if numero_nota is not None:
                 mostrar_nota_para_impressao(numero_nota, banco)
-
+        elif event == "Cadastrar Estoque":
+            cadastrar_estoque_controller = CadastrarEstoqueController(banco)
+            cadastrar_estoque_controller.cadastrar_estoque()
+            
     window.close()
     banco.fechar_conexao()

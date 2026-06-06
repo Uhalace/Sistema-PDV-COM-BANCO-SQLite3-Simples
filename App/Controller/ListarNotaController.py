@@ -47,16 +47,26 @@ class ListarNotaController:
                 ],
                 key="-TABLE-",
                 auto_size_columns=False,
-                col_widths=[15, 30, 10, 12, 12],
+                col_widths=[15, 32, 12, 16, 16],
                 justification="center",
+                text_color="#000000",
+                background_color="#FFFFFF",
+                header_background_color="#404040",
+                header_text_color="#FFFFFF",
+                header_font=("Segoe UI", 11, "bold"),
+                font=("Segoe UI", 11),
+                row_height=30,
                 num_rows=15,
-                alternating_row_color="#F0F0F0",
+                alternating_row_color="#F7F7F7",
                 expand_x=True,
-                expand_y=True
+                expand_y=True,
+                pad=((0, 0), (10, 10))
             )
         ]],
         expand_x=True,
-        expand_y=True
+        expand_y=True,
+        relief=sg.RELIEF_SUNKEN,
+        pad=(10, 10)
     )],
 
     [sg.HorizontalSeparator()],

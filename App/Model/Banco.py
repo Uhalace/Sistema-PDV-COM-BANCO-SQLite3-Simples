@@ -19,6 +19,15 @@ class Banco:
                 subtotal INTEGER NOT NULL
             )
         """)
+        self.cursor.execute("""
+                CREATE TABLE IF NOT EXISTS estoque (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    codigo INTEGER NOT NULL,
+                    item VARCHAR(250) NOT NULL,
+                     quantidade INTEGER NOT NULL,
+                    valor INTEGER NOT NULL)
+                """)
+
         self.conexao.commit()
 
     def inserir_venda(self, numero_nota, item, quantidade, valor, subtotal):
@@ -47,6 +56,19 @@ class Banco:
     def listar_numeros_notas(self):
         self.cursor.execute("SELECT DISTINCT numero_nota FROM vendas")
         return [row[0] for row in self.cursor.fetchall()]
+    
+    # Métodos para o estoque
+    def inserir_estoque(self, codigo, item, quantidade, valor):
+        self.cursor.execute("""
+            INSERT INTO estoque (codigo, item, quantidade, valor)
+            VALUES (?, ?, ?, ?)
+        """, (codigo, item, quantidade, valor))
+        self.conexao.commit()
+
+    def Bucar_item(self, codigo):
+        self.cursor.execute("SELECT * FROM estoque WHERE codigo = ?", (codigo,))
+        return self.cursor.fetchone()
+        
 
     def fechar_conexao(self):
         self.conexao.close()

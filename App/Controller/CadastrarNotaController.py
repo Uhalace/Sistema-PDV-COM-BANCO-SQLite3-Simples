@@ -12,7 +12,8 @@ class CadastrarNotaController:
         [
             [sg.Text("Número da nota:", size=(15, 1)),
              sg.Input(default_text=str(self.banco.numero_nota_bd()), key="nunota")],
-
+            [sg.Text("Código do item:", size=(15, 1)),
+             sg.Input(key="codigo")],
             [sg.Text("Nome do item:", size=(15, 1)),
              sg.Input(key="item")],
 
@@ -29,12 +30,13 @@ class CadastrarNotaController:
 
     [sg.Push(),
      sg.Button("Salvar", size=(12, 2)),
+     sg.Button("Buscar", size=(12, 2), key="buscar"),
      sg.Button("Cancelar", size=(12, 2)),
      sg.Button("Imprimir Nota", size=(12, 2), key="imprimir"),
      sg.Push()]
      ]
 
-        window_cadnota = sg.Window("Cadastro de Nota", layout_cadnota, modal=True, icon="./icones/nota.ico")
+        window_cadnota = sg.Window("Cadastro de Nota", layout_cadnota, modal=True,  icon="./icones/nota.ico")
 
         while True:
             event, values = window_cadnota.read()
@@ -60,8 +62,13 @@ class CadastrarNotaController:
                     window_cadnota["nunota"].update(self.banco.numero_nota_bd())
                 except Exception as e:
                     sg.popup(f"Erro ao imprimir nota: {e}", title="Erro", keep_on_top=True, icon="./icones/nota.ico")
-
-
+            if event == "buscar":
+                codigo = values["codigo"]
+                item = self.banco.Bucar_item(codigo)
+                if item:
+                    window_cadnota["item"].update(item[2])
+                    window_cadnota["valor"].update(item[4] / 100)
+                    continue
             if event == "Salvar":
                 window_cadnota["msg"].update(text_color="red")
 

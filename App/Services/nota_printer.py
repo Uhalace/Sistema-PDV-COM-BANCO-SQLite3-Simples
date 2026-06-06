@@ -17,22 +17,41 @@ def _format_reais_inner(cents):
     return f"R$ {cents / 100:.2f}".replace('.', ',')
 
 
+def _wrap_text(text, width):
+    words = str(text).split()
+    lines = []
+    current_line = ""
+
+    for word in words:
+        if not current_line:
+            current_line = word
+        elif len(current_line) + 1 + len(word) <= width:
+            current_line += " " + word
+        else:
+            lines.append(current_line)
+            current_line = word
+
+    if current_line:
+        lines.append(current_line)
+
+    return lines
+
+
 def imprimir_arquivo_nota(numero, linhas, total):
-    item_width = 24
+    item_width = 30
     qtd_width = 6
     valor_width = 12
-    subtotal_width = 14
+    subtotal_width = 12
     line_length = item_width + qtd_width + valor_width + subtotal_width
     now = datetime.now()
 
     with tempfile.NamedTemporaryFile(delete=False, suffix='.txt', mode='w', encoding='utf-8') as arquivo:
         arquivo.write(f"{ESTABELECIMENTO_NOME.center(line_length)}\n")
-        arquivo.write(f"CNPJ: {ESTABELECIMENTO_CNPJ}{'':<{line_length - 7 - len(ESTABELECIMENTO_CNPJ)}}\n")
-        arquivo.write(f"IE: {ESTABELECIMENTO_IE}{'':<{line_length - 4 - len(ESTABELECIMENTO_IE)}}\n")
         arquivo.write(f"{ESTABELECIMENTO_ENDERECO.center(line_length)}\n")
+        arquivo.write(f"CNPJ: {ESTABELECIMENTO_CNPJ}    IE: {ESTABELECIMENTO_IE}".center(line_length) + "\n")
         arquivo.write(f"TEL: {ESTABELECIMENTO_TELEFONE.center(line_length - 5)}\n")
         arquivo.write("=" * line_length + "\n")
-        arquivo.write(f"{r'\\Cupom Fiscal\\'.center(line_length)}\n")
+        arquivo.write(f"{'CUPOM FISCAL'.center(line_length)}\n")
         arquivo.write("=" * line_length + "\n")
         arquivo.write(f"Nº: {numero:<8}DATA: {now:%d/%m/%Y}  HORA: {now:%H:%M:%S}\n")
         arquivo.write("-" * line_length + "\n")
@@ -40,16 +59,24 @@ def imprimir_arquivo_nota(numero, linhas, total):
         arquivo.write("-" * line_length + "\n")
 
         for item, qtd, valor, subtotal in linhas:
-            arquivo.write(f"{item:<{item_width}}{qtd:>{qtd_width}}{valor:>{valor_width}}{subtotal:>{subtotal_width}}\n")
+            wrapped_item = _wrap_text(item, item_width)
+            for index, item_line in enumerate(wrapped_item):
+                if index == 0:
+                    arquivo.write(
+                        f"{item_line:<{item_width}}{qtd:>{qtd_width}}{valor:>{valor_width}}{subtotal:>{subtotal_width}}\n"
+                    )
+                else:
+                    arquivo.write(f"{item_line:<{item_width}}{'':>{qtd_width}}{'':>{valor_width}}{'':>{subtotal_width}}\n")
 
         arquivo.write("=" * line_length + "\n")
         arquivo.write(f"{'TOTAL DA NOTA':<{item_width + qtd_width + valor_width}}{_format_reais_inner(total):>{subtotal_width}}\n")
         arquivo.write("=" * line_length + "\n")
         arquivo.write(f"{'FORMA DE PAGAMENTO: À VISTA'.ljust(line_length)}\n")
-        arquivo.write(f"{'Consumidor: ________________________________'.ljust(line_length)}\n")
-        arquivo.write(f"{'Assinatura: ________________________________'.ljust(line_length)}\n")
+        arquivo.write("\n")
+        arquivo.write(f"{'Consumidor:':<20}{'________________________':<{line_length - 20}}\n")
+        arquivo.write(f"{'Assinatura:':<20}{'________________________':<{line_length - 20}}\n")
         arquivo.write("=" * line_length + "\n")
-        arquivo.write(f"{'Cupom sem validade fiscal'.center(line_length)}\n")
+        arquivo.write(f"{'CUPOM SEM VALIDADE FISCAL'.center(line_length)}\n")
         arquivo.write("=" * line_length + "\n")
         arquivo_path = arquivo.name
 
