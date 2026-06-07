@@ -22,7 +22,7 @@
 
 ## 💻 Sobre o Projeto
 
-O **PDV Notas** é um sistema desktop simples e direto, projetado para funcionar como um Ponto de Venda (PDV) para emissão de notas ou cupons não fiscais. Com foco em pequenos comércios ou prestadores de serviços autônomos, o aplicativo oferece uma interface limpa para registrar vendas, gerenciar o histórico e emitir comprovantes impressos de forma ágil.
+O **PDV Notas** é um sistema desktop simples e direto, projetado para funcionar como um Ponto de Venda (PDV) para emissão de notas ou cupons não fiscais e controle de estoque básico. Com foco em pequenos comércios ou prestadores de serviços autônomos, o aplicativo oferece uma interface limpa para registrar vendas, gerenciar o histórico, cadastrar produtos e emitir comprovantes impressos de forma ágil.
 
 *Nota: Este projeto possui fins de estudo e facilitação de fluxos simples, e os cupons gerados não possuem validade fiscal (NFC-e/SAT).*
 
@@ -37,6 +37,9 @@ O **PDV Notas** é um sistema desktop simples e direto, projetado para funcionar
   - Inserção ágil de itens, com campos para valor unitário e quantidade.
   - Cálculo automático de subtotal por item.
   - Agrupamento inteligente de múltiplos itens na mesma nota/venda.
+- **[📦] Cadastro de Estoque:**
+  - Nova tela dedicada para o registro de produtos no sistema.
+  - Armazenamento de código, descrição, valor e quantidade em estoque.
 - **[🔎] Consulta de Vendas:**
   - Visualização em tabela de todo o histórico de vendas registrado no sistema.
 - **[🖨️] Emissão de Comprovante:**
@@ -65,12 +68,14 @@ Projeto 2 com UI/
 │   ├── Banco/             # Arquivo do banco de dados SQLite persistente (base.db)
 │   ├── Controller/        # Intermediários: Capturam eventos da View e chamam as regras de negócio
 │   │   ├── CadastrarNotaController.py
+│   │   ├── CadastroEstoqueController.py
 │   │   └── ListarNotaController.py
 │   ├── Functions/         # Helpers e utilitários globais (ex: formatação de moeda R$)
 │   └── Model/             # Camada de Dados: Conexão e queries SQL encapsuladas
 │       └── Banco.py
+├── App/app.py             # View principal e inicialização das telas
 ├── Icones/                # Recursos de mídia (ícones da janela, logo)
-└── main.py                # Ponto de entrada (Entrypoint) e renderização principal (View)
+└── main.py                # Ponto de entrada (Entrypoint)
 ```
 
 ---
@@ -116,10 +121,11 @@ $ python main.py
 
 Como o projeto está em desenvolvimento contínuo, aqui estão algumas melhorias mapeadas para o futuro:
 
-- [ ] Criação de uma tela de gerenciamento de Produtos (CRUD).
+- [x] Criação de uma tela de gerenciamento de Produtos (Cadastro de Estoque).
+- [ ] Implementação de edição e exclusão de Produtos (CRUD Completo).
 - [ ] Implementação de dashboard com gráficos básicos de faturamento diário/mensal.
 - [ ] Exportação do histórico de vendas para Excel/CSV.
-- [ ] Opção de configurar os dados do estabelecimento pela interface (atualmente estão _hardcoded_ no `main.py`).
+- [ ] Opção de configurar os dados do estabelecimento pela interface (atualmente estão _hardcoded_ no `main.py` ou `nota_printer.py`).
 
 ---
 
