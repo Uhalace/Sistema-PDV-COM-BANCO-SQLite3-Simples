@@ -64,11 +64,27 @@ class Banco:
             VALUES (?, ?, ?, ?)
         """, (codigo, item, quantidade, valor))
         self.conexao.commit()
-
+    # BUSCANDO ITEM CADASTRADO
     def Bucar_item(self, codigo):
         self.cursor.execute("SELECT * FROM estoque WHERE codigo = ?", (codigo,))
         return self.cursor.fetchone()
+    #DAR BAIXA ESTOQUE 
+    def dar_baixa_estoque(self, codigo, quantidade):
+        # Verifica se o item existe e se há saldo suficiente antes de decrementar
+        self.cursor.execute("SELECT id, quantidade FROM estoque WHERE codigo = ? AND quantidade >= ?", (codigo, quantidade))
+        row = self.cursor.fetchone()
+        if not row:
+            return False
+        quantidade_atual = row[1]
+        id = row[0]
+        if quantidade_atual >= quantidade:
+            self.cursor.execute("UPDATE estoque SET quantidade = quantidade - ? WHERE id = ?", (quantidade, id))
+            self.conexao.commit()
+            return True
+        else:
+            return False
         
+    
 
     def fechar_conexao(self):
         self.conexao.close()

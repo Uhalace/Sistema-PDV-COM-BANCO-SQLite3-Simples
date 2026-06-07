@@ -99,9 +99,15 @@ class CadastrarNotaController:
 
                 subtotal_float = valor_float * quantidade_float
                 subtotal = int(subtotal_float * 100)
-
-                self.banco.inserir_venda(numero_nota, nome_item, quantidade, valor, subtotal)
-                window_cadnota["msg"].update("Nota cadastrada com sucesso!", text_color="green")
+                codigo = int(values["codigo"])
+                baixa_estoque = self.banco.dar_baixa_estoque(codigo, quantidade)
+                #se baixa for true
+                if baixa_estoque:
+                    self.banco.inserir_venda(numero_nota, nome_item, quantidade, valor, subtotal)
+                    window_cadnota["msg"].update("Nota cadastrada com sucesso!", text_color="green")
+                else:
+                    window_cadnota["msg"].update("Saldo insuficiente para venda", text_color="red")
+                    continue
 
                 if sg.popup_yes_no("Deseja cadastrar outro item para a mesma nota?", title="Continuar?", keep_on_top=True) == "No":
                     window_cadnota["nunota"].update(self.banco.numero_nota_bd())
