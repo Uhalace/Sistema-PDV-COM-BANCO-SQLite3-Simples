@@ -128,7 +128,7 @@ Como o projeto está em desenvolvimento contínuo, aqui estão algumas melhorias
 
 - [x] Criação de uma tela de gerenciamento de Produtos (Cadastro de Estoque).
 - [x] Criação de uma tela para visualização de Produtos (Listagem de Estoque).
-- [ ] Implementação de edição e exclusão de Produtos (CRUD Completo).
+- [x] Implementação de edição e exclusão de Produtos (CRUD Completo).
 - [ ] Implementação de dashboard com gráficos básicos de faturamento diário/mensal.
 - [ ] Exportação do histórico de vendas para Excel/CSV.
 - [ ] Opção de configurar os dados do estabelecimento pela interface.
