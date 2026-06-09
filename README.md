@@ -22,33 +22,35 @@
 
 ## 💻 Sobre o Projeto
 
-O **PDV Notas** é um sistema desktop simples e direto, projetado para funcionar como um Ponto de Venda (PDV) para emissão de notas ou cupons não fiscais e controle de estoque básico. Com foco em pequenos comércios ou prestadores de serviços autônomos, o aplicativo oferece uma interface limpa para registrar vendas, gerenciar o histórico, cadastrar produtos e emitir comprovantes impressos de forma ágil.
+O **PDV Notas** é um sistema desktop ágil e direto, projetado para atuar como um Ponto de Venda (PDV) com foco em emissão de notas/cupons não fiscais e controle de estoque integrado. Voltado para pequenos comércios ou prestadores de serviços, o aplicativo oferece uma interface limpa para realizar vendas, abater o estoque automaticamente, gerenciar produtos e emitir comprovantes impressos.
 
-*Nota: Este projeto possui fins de estudo e facilitação de fluxos simples, e os cupons gerados não possuem validade fiscal (NFC-e/SAT).*
-
-<!-- Placeholder para uma futura screenshot -->
-<!-- <p align="center"><img src="./assets/screenshot.png" alt="Tela Principal do Sistema" width="600"></p> -->
+*Nota: Este projeto possui fins de estudo e facilitação de fluxos simples comerciais. Os cupons gerados não possuem validade fiscal (NFC-e/SAT).*
 
 ---
 
 ## 🚀 Funcionalidades
 
-- **[+] Novo Cadastro de Nota:** 
-  - Inserção ágil de itens, com campos para valor unitário e quantidade.
-  - Cálculo automático de subtotal por item.
+- **[+] Ponto de Venda Integrado (Cadastro de Nota):** 
+  - **Busca Rápida:** Integração direta com o estoque. Digite o código do produto e busque para preencher automaticamente o nome e o valor.
+  - **Baixa de Estoque Automática:** Ao salvar uma venda, o sistema verifica o saldo e deduz automaticamente a quantidade vendida do estoque do produto. Alerta caso haja saldo insuficiente.
+  - Inserção ágil de itens com cálculo automático de subtotal por item.
   - Agrupamento inteligente de múltiplos itens na mesma nota/venda.
-- **[📦] Controle de Estoque:**
-  - Tela dedicada para o registro (cadastro) de produtos no sistema.
-  - Visualização (listagem) de todos os itens cadastrados no estoque.
-  - Edição e exclusão de itens diretamente pela interface de listagem (CRUD Completo).
-  - Armazenamento de código, descrição, valor e quantidade em estoque.
+  - Botão de atalho para **Imprimir Nota** logo após finalizar a venda, sem precisar sair da tela.
+
+- **[📦] Gestão Completa de Estoque (CRUD):**
+  - **Cadastro:** Tela dedicada para o registro de novos produtos no sistema.
+  - **Listagem e Consulta:** Visualização em tabela de todos os itens cadastrados no estoque, com paginação para melhor performance.
+  - **Edição e Exclusão:** Gestão completa dos itens, sendo possível editar os valores e quantidades ou remover um item clicando na tabela.
+  - Armazenamento estruturado de código, descrição, valor e quantidade.
+
 - **[🔎] Consulta de Vendas:**
-  - Visualização em tabela de todo o histórico de vendas registrado no sistema.
+  - Visualização em tabela do histórico completo das vendas registradas.
+
 - **[🖨️] Emissão e Visualização de Comprovante:**
-  - Interface para seleção de nota específica através de lista.
-  - Tabela de pré-visualização da nota na interface antes da impressão.
-  - Geração de layout de "Cupom" estruturado em texto plano (`.txt`).
-  - Envio automatizado para a fila de impressão padrão do sistema operacional, facilitando o uso com impressoras térmicas genéricas.
+  - Interface para seleção de nota específica por número.
+  - Tabela de pré-visualização da nota e conferência do total antes da impressão.
+  - Geração de um layout de "Cupom" perfeitamente estruturado em texto plano (`.txt`).
+  - Envio automatizado para a fila de impressão padrão do sistema operacional, ideal para impressoras térmicas genéricas (Não-Fiscais).
 
 ---
 
@@ -57,7 +59,7 @@ O **PDV Notas** é um sistema desktop simples e direto, projetado para funcionar
 As seguintes ferramentas e bibliotecas foram utilizadas na construção do projeto:
 
 - **[Python](https://www.python.org/):** Linguagem core da aplicação.
-- **[PySimpleGUI](https://pysimplegui.readthedocs.io/):** Responsável por abstrair bibliotecas gráficas complexas e entregar a interface do usuário.
+- **[PySimpleGUI](https://pysimplegui.readthedocs.io/):** Responsável por abstrair bibliotecas gráficas complexas e entregar a interface do usuário fluida e ágil.
 - **[SQLite3](https://docs.python.org/3/library/sqlite3.html):** Banco de dados relacional embarcado, garantindo que o software funcione de maneira portátil, sem necessidade de instalar um servidor de banco de dados (ex: MySQL, PostgreSQL).
 
 ---
@@ -129,6 +131,7 @@ Como o projeto está em desenvolvimento contínuo, aqui estão algumas melhorias
 - [x] Criação de uma tela de gerenciamento de Produtos (Cadastro de Estoque).
 - [x] Criação de uma tela para visualização de Produtos (Listagem de Estoque).
 - [x] Implementação de edição e exclusão de Produtos (CRUD Completo).
+- [x] Integração da Tela de Vendas com o Estoque (Baixa automática e busca de código).
 - [ ] Implementação de dashboard com gráficos básicos de faturamento diário/mensal.
 - [ ] Exportação do histórico de vendas para Excel/CSV.
 - [ ] Opção de configurar os dados do estabelecimento pela interface.

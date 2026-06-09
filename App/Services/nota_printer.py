@@ -38,6 +38,7 @@ def _wrap_text(text, width):
 
 
 def imprimir_arquivo_nota(numero, linhas, total):
+    """Imprime a nota em arquivo de texto e envia para impressora"""
     item_width = 30
     qtd_width = 6
     valor_width = 12
@@ -45,46 +46,55 @@ def imprimir_arquivo_nota(numero, linhas, total):
     line_length = item_width + qtd_width + valor_width + subtotal_width
     now = datetime.now()
 
-    with tempfile.NamedTemporaryFile(delete=False, suffix='.txt', mode='w', encoding='utf-8') as arquivo:
-        arquivo.write(f"{ESTABELECIMENTO_NOME.center(line_length)}\n")
-        arquivo.write(f"{ESTABELECIMENTO_ENDERECO.center(line_length)}\n")
-        arquivo.write(f"CNPJ: {ESTABELECIMENTO_CNPJ}    IE: {ESTABELECIMENTO_IE}".center(line_length) + "\n")
-        arquivo.write(f"TEL: {ESTABELECIMENTO_TELEFONE.center(line_length - 5)}\n")
-        arquivo.write("=" * line_length + "\n")
-        arquivo.write(f"{'CUPOM FISCAL'.center(line_length)}\n")
-        arquivo.write("=" * line_length + "\n")
-        arquivo.write(f"Nº: {numero:<8}DATA: {now:%d/%m/%Y}  HORA: {now:%H:%M:%S}\n")
-        arquivo.write("-" * line_length + "\n")
-        arquivo.write(f"{'ITEM':<{item_width}}{'QTD':>{qtd_width}}{'V.UNIT':>{valor_width}}{'SUBTOTAL':>{subtotal_width}}\n")
-        arquivo.write("-" * line_length + "\n")
-
-        for item, qtd, valor, subtotal in linhas:
-            wrapped_item = _wrap_text(item, item_width)
-            for index, item_line in enumerate(wrapped_item):
-                if index == 0:
-                    arquivo.write(
-                        f"{item_line:<{item_width}}{qtd:>{qtd_width}}{valor:>{valor_width}}{subtotal:>{subtotal_width}}\n"
-                    )
-                else:
-                    arquivo.write(f"{item_line:<{item_width}}{'':>{qtd_width}}{'':>{valor_width}}{'':>{subtotal_width}}\n")
-
-        arquivo.write("=" * line_length + "\n")
-        arquivo.write(f"{'TOTAL DA NOTA':<{item_width + qtd_width + valor_width}}{_format_reais_inner(total):>{subtotal_width}}\n")
-        arquivo.write("=" * line_length + "\n")
-        arquivo.write(f"{'FORMA DE PAGAMENTO: À VISTA'.ljust(line_length)}\n")
-        arquivo.write("\n")
-        arquivo.write(f"{'Consumidor:':<20}{'________________________':<{line_length - 20}}\n")
-        arquivo.write(f"{'Assinatura:':<20}{'________________________':<{line_length - 20}}\n")
-        arquivo.write("=" * line_length + "\n")
-        arquivo.write(f"{'CUPOM SEM VALIDADE FISCAL'.center(line_length)}\n")
-        arquivo.write("=" * line_length + "\n")
-        arquivo_path = arquivo.name
-
     try:
-        os.startfile(arquivo_path, 'print')
-        sg.popup('A nota foi enviada para impressão.')
+        with tempfile.NamedTemporaryFile(delete=False, suffix='.txt', mode='w', encoding='utf-8') as arquivo:
+            arquivo.write(f"{ESTABELECIMENTO_NOME.center(line_length)}\n")
+            arquivo.write(f"{ESTABELECIMENTO_ENDERECO.center(line_length)}\n")
+            arquivo.write(f"CNPJ: {ESTABELECIMENTO_CNPJ}    IE: {ESTABELECIMENTO_IE}".center(line_length) + "\n")
+            arquivo.write(f"TEL: {ESTABELECIMENTO_TELEFONE.center(line_length - 5)}\n")
+            arquivo.write("=" * line_length + "\n")
+            arquivo.write(f"{'CUPOM FISCAL'.center(line_length)}\n")
+            arquivo.write("=" * line_length + "\n")
+            arquivo.write(f"Nº: {numero:<8}DATA: {now:%d/%m/%Y}  HORA: {now:%H:%M:%S}\n")
+            arquivo.write("-" * line_length + "\n")
+            arquivo.write(f"{'ITEM':<{item_width}}{'QTD':>{qtd_width}}{'V.UNIT':>{valor_width}}{'SUBTOTAL':>{subtotal_width}}\n")
+            arquivo.write("-" * line_length + "\n")
+
+            for item, qtd, valor, subtotal in linhas:
+                wrapped_item = _wrap_text(item, item_width)
+                for index, item_line in enumerate(wrapped_item):
+                    if index == 0:
+                        arquivo.write(
+                            f"{item_line:<{item_width}}{str(qtd):>{qtd_width}}{str(valor):>{valor_width}}{str(subtotal):>{subtotal_width}}\n"
+                        )
+                    else:
+                        arquivo.write(f"{item_line:<{item_width}}{'':>{qtd_width}}{'':>{valor_width}}{'':>{subtotal_width}}\n")
+
+            arquivo.write("=" * line_length + "\n")
+            arquivo.write(f"{'TOTAL DA NOTA':<{item_width + qtd_width + valor_width}}{_format_reais_inner(total):>{subtotal_width}}\n")
+            arquivo.write("=" * line_length + "\n")
+            arquivo.write(f"{'FORMA DE PAGAMENTO: À VISTA'.ljust(line_length)}\n")
+            arquivo.write("\n")
+            arquivo.write(f"{'Consumidor:':<20}{'________________________':<{line_length - 20}}\n")
+            arquivo.write(f"{'Assinatura:':<20}{'________________________':<{line_length - 20}}\n")
+            arquivo.write("=" * line_length + "\n")
+            arquivo.write(f"{'CUPOM SEM VALIDADE FISCAL'.center(line_length)}\n")
+            arquivo.write("=" * line_length + "\n")
+            arquivo_path = arquivo.name
+
+        # Tenta imprimir o arquivo
+        try:
+            os.startfile(arquivo_path, 'print')
+            sg.popup('A nota foi enviada para impressão.', title='Sucesso')
+        except Exception as e:
+            # Se falhar, tenta abrir com o programa padrão de texto
+            try:
+                os.startfile(arquivo_path)
+                sg.popup(f'Arquivo criado em: {arquivo_path}\nAbra-o para imprimir.', title='Arquivo Criado')
+            except Exception as e2:
+                sg.popup(f'Erro ao imprimir: {e2}', title='Erro')
     except Exception as e:
-        sg.popup(f'Erro ao imprimir: {e}')
+        sg.popup(f'Erro ao criar arquivo de impressão: {e}', title='Erro')
 
 
 def formatar_vendas_para_tabela(vendas_nota):
