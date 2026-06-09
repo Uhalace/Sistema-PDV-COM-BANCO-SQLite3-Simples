@@ -2,6 +2,7 @@ import PySimpleGUI as sg
 
 from App.Controller.CadastrarNotaController import CadastrarNotaController
 from App.Controller.ListarNotaController import ListarNotaController
+from App.Controller.ListarEstoqueController import ListarEstoqueControler
 from App.Functions.format import format_reais
 from App.Model.Banco import Banco
 from App.Services.nota_printer import formatar_vendas_para_tabela, imprimir_arquivo_nota
@@ -20,6 +21,7 @@ def criar_janela_principal():
             sg.Button("Imprimir Nota", size=(18, 2), font=("Segoe UI", 10, "bold"))
         ],
         [sg.Button("Cadastrar Estoque", size=(18, 2), font=("Segoe UI", 10, "bold")),
+         sg.Button("Listar Estoque", size=(18, 2), font=("Segoe UI", 10, "bold")),
          sg.Button("Sair", size=(18, 2), font=("Segoe UI", 10, "bold"))],
         [
             sg.Text(
@@ -154,6 +156,9 @@ def main():
         elif event == "Cadastrar Estoque":
             cadastrar_estoque_controller = CadastrarEstoqueController(banco)
             cadastrar_estoque_controller.cadastrar_estoque()
+        elif event == "Listar Estoque":
+            listar_estoque_controller = ListarEstoqueControler(banco)
+            listar_estoque_controller.listar_estoque()
             
     window.close()
     banco.fechar_conexao()

@@ -68,6 +68,7 @@ class Banco:
     def Bucar_item(self, codigo):
         self.cursor.execute("SELECT * FROM estoque WHERE codigo = ?", (codigo,))
         return self.cursor.fetchone()
+    
     #DAR BAIXA ESTOQUE 
     def dar_baixa_estoque(self, codigo, quantidade):
         # Verifica se o item existe e se há saldo suficiente antes de decrementar
@@ -83,6 +84,24 @@ class Banco:
             return True
         else:
             return False
+    #LISTAR ESTOQUE
+    def listar_estoque(self):
+        self.cursor.execute("SELECT * FROM estoque")
+        return self.cursor.fetchall()
+
+    def atualizar_estoque(self, id, codigo, item, quantidade, valor):
+        self.cursor.execute("""
+            UPDATE estoque
+            SET codigo = ?, item = ?, quantidade = ?, valor = ?
+            WHERE id = ?
+        """, (codigo, item, quantidade, valor, id))
+        self.conexao.commit()
+
+    #EXCLUIR ESTOQUE
+    def excluir_estoque(self, id):
+        self.cursor.execute("DELETE FROM estoque WHERE id = ?", (id,))
+        self.conexao.commit()
+
         
     
 

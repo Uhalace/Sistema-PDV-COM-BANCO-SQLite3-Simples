@@ -37,12 +37,15 @@ O **PDV Notas** é um sistema desktop simples e direto, projetado para funcionar
   - Inserção ágil de itens, com campos para valor unitário e quantidade.
   - Cálculo automático de subtotal por item.
   - Agrupamento inteligente de múltiplos itens na mesma nota/venda.
-- **[📦] Cadastro de Estoque:**
-  - Nova tela dedicada para o registro de produtos no sistema.
+- **[📦] Controle de Estoque:**
+  - Tela dedicada para o registro (cadastro) de produtos no sistema.
+  - Visualização (listagem) de todos os itens cadastrados no estoque.
   - Armazenamento de código, descrição, valor e quantidade em estoque.
 - **[🔎] Consulta de Vendas:**
   - Visualização em tabela de todo o histórico de vendas registrado no sistema.
-- **[🖨️] Emissão de Comprovante:**
+- **[🖨️] Emissão e Visualização de Comprovante:**
+  - Interface para seleção de nota específica através de lista.
+  - Tabela de pré-visualização da nota na interface antes da impressão.
   - Geração de layout de "Cupom" estruturado em texto plano (`.txt`).
   - Envio automatizado para a fila de impressão padrão do sistema operacional, facilitando o uso com impressoras térmicas genéricas.
 
@@ -69,6 +72,7 @@ Projeto 2 com UI/
 │   ├── Controller/        # Intermediários: Capturam eventos da View e chamam as regras de negócio
 │   │   ├── CadastrarNotaController.py
 │   │   ├── CadastroEstoqueController.py
+│   │   ├── ListarEstoqueController.py
 │   │   └── ListarNotaController.py
 │   ├── Functions/         # Helpers e utilitários globais (ex: formatação de moeda R$)
 │   └── Model/             # Camada de Dados: Conexão e queries SQL encapsuladas
@@ -122,10 +126,11 @@ $ python main.py
 Como o projeto está em desenvolvimento contínuo, aqui estão algumas melhorias mapeadas para o futuro:
 
 - [x] Criação de uma tela de gerenciamento de Produtos (Cadastro de Estoque).
+- [x] Criação de uma tela para visualização de Produtos (Listagem de Estoque).
 - [ ] Implementação de edição e exclusão de Produtos (CRUD Completo).
 - [ ] Implementação de dashboard com gráficos básicos de faturamento diário/mensal.
 - [ ] Exportação do histórico de vendas para Excel/CSV.
-- [ ] Opção de configurar os dados do estabelecimento pela interface (atualmente estão _hardcoded_ no `main.py` ou `nota_printer.py`).
+- [ ] Opção de configurar os dados do estabelecimento pela interface.
 
 ---
 
