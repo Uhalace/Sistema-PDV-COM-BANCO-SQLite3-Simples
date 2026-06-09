@@ -40,6 +40,7 @@ O **PDV Notas** é um sistema desktop simples e direto, projetado para funcionar
 - **[📦] Controle de Estoque:**
   - Tela dedicada para o registro (cadastro) de produtos no sistema.
   - Visualização (listagem) de todos os itens cadastrados no estoque.
+  - Edição e exclusão de itens diretamente pela interface de listagem (CRUD Completo).
   - Armazenamento de código, descrição, valor e quantidade em estoque.
 - **[🔎] Consulta de Vendas:**
   - Visualização em tabela de todo o histórico de vendas registrado no sistema.
