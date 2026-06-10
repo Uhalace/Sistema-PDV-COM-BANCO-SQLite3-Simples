@@ -16,7 +16,8 @@ class Banco:
                 item TEXT NOT NULL,
                 quantidade INTEGER NOT NULL,
                 valor INTEGER NOT NULL,
-                subtotal INTEGER NOT NULL
+                subtotal INTEGER NOT NULL,
+                data_cadastro TEXT DEFAULT (DATE('now'))
             )
         """)
         self.cursor.execute("""
@@ -25,7 +26,8 @@ class Banco:
                     codigo INTEGER NOT NULL,
                     item VARCHAR(250) NOT NULL,
                      quantidade INTEGER NOT NULL,
-                    valor INTEGER NOT NULL)
+                    valor INTEGER NOT NULL,
+                    data_cadastro TEXT DEFAULT (DATE('now')))
                 """)
 
         self.conexao.commit()
@@ -86,7 +88,7 @@ class Banco:
             return False
     #LISTAR ESTOQUE
     def listar_estoque(self):
-        self.cursor.execute("SELECT * FROM estoque")
+        self.cursor.execute("SELECT id, codigo, item, quantidade, valor FROM estoque")
         return self.cursor.fetchall()
 
     def atualizar_estoque(self, id, codigo, item, quantidade, valor):
@@ -97,12 +99,17 @@ class Banco:
         """, (codigo, item, quantidade, valor, id))
         self.conexao.commit()
 
+    def relatorio_estoque(self):
+        self.cursor.execute("SELECT item, quantidade, valor FROM estoque")
+        return self.cursor.fetchall()
+    
+
     #EXCLUIR ESTOQUE
     def excluir_estoque(self, id):
         self.cursor.execute("DELETE FROM estoque WHERE id = ?", (id,))
         self.conexao.commit()
 
-        
+    
     
 
     def fechar_conexao(self):

@@ -8,7 +8,7 @@ class ListarEstoqueControler:
         estoque_brutas = self.banco.listar_estoque()
         estoque_formatado = []
         for estoque in estoque_brutas:
-            id_, codigo, item, quantidade, valor = estoque
+            id_, codigo, item, quantidade, valor, *_ = estoque
             estoque_formatado.append({
                 "id": id_,
                 "codigo": codigo,
@@ -189,7 +189,7 @@ class ListarEstoqueControler:
                 estoque_brutas = self.banco.listar_estoque()
                 estoque_formatado.clear()
                 for estoque in estoque_brutas:
-                    id_, codigo, item_codigo, quantidade, valor = estoque
+                    id_, codigo, item_codigo, quantidade, valor, *_ = estoque
                     estoque_formatado.append({
                         "id": id_,
                         "codigo": codigo,
@@ -221,7 +221,7 @@ class ListarEstoqueControler:
                     estoque_brutas = self.banco.listar_estoque()
                     estoque_formatado.clear()
                     for estoque in estoque_brutas:
-                        id_, codigo, item_codigo, quantidade, valor = estoque
+                        id_, codigo, item_codigo, quantidade, valor, *_ = estoque
                         estoque_formatado.append({
                             "id": id_,
                             "codigo": codigo,

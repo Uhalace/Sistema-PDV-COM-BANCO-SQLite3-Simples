@@ -38,7 +38,7 @@ class ListarNotaController:
             return vendas_formatadas[start:end]
 
         layout_listagem = [
-            [sg.Push(), sg.Image("./icones/nota_100.png", pad=(0, 0)), sg.Push()],
+            [sg.Push(), sg.Image("./icones/vendas_100.png", pad=(0, 0)), sg.Push()],
             [sg.Push(),
              sg.Text(
                  "Listagem de Vendas",

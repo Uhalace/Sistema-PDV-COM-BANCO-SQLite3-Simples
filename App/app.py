@@ -3,6 +3,8 @@ import PySimpleGUI as sg
 from App.Controller.CadastrarNotaController import CadastrarNotaController
 from App.Controller.ListarNotaController import ListarNotaController
 from App.Controller.ListarEstoqueController import ListarEstoqueControler
+from App.Controller.RelatorioEstoqueController import RelatorioEstoque
+from App.Controller.RelatorioVendasController import RelatorioVendas
 from App.Functions.format import format_reais
 from App.Model.Banco import Banco
 from App.Services.nota_printer import formatar_vendas_para_tabela, imprimir_arquivo_nota
@@ -22,7 +24,9 @@ def criar_janela_principal():
         ],
         [sg.Button("Cadastrar Estoque", size=(18, 2), font=("Segoe UI", 10, "bold")),
          sg.Button("Listar Estoque", size=(18, 2), font=("Segoe UI", 10, "bold")),
-         sg.Button("Sair", size=(18, 2), font=("Segoe UI", 10, "bold"))],
+         sg.Button("Relatório Estoque", size=(18, 2), font=("Segoe UI", 10, "bold"))],
+        [sg.Push(), sg.Button("Relatório de Vendas", size=(18, 2), font=("Segoe UI", 10, "bold")), sg.Push()],
+        [sg.Push(), sg.Button("Sair", size=(18, 2), font=("Segoe UI", 10, "bold")), sg.Push()],
         [
             sg.Text(
                 "Desenvolvido por: Uhalace de Souza",
@@ -314,6 +318,8 @@ def main():
     banco = Banco()
     cadastrar_nota_controller = CadastrarNotaController(banco)
     listar_nota_controller = ListarNotaController(banco)
+    relatorio_estoque_controller = RelatorioEstoque(banco)
+    relatorio_vendas_controller = RelatorioVendas(banco)
     window = criar_janela_principal()
 
     while True:
@@ -335,6 +341,9 @@ def main():
         elif event == "Listar Estoque":
             listar_estoque_controller = ListarEstoqueControler(banco)
             listar_estoque_controller.listar_estoque()
-            
+        elif event == "Relatório Estoque":
+            relatorio_estoque_controller.gerar_relatorio_estoque()
+        elif event == "Relatório de Vendas":
+            relatorio_vendas_controller.gerar_relatorio_vendas()
     window.close()
     banco.fechar_conexao()

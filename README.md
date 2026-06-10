@@ -52,6 +52,12 @@ O **PDV Notas** é um sistema desktop ágil e direto, projetado para atuar como 
   - Geração de um layout de "Cupom" perfeitamente estruturado em texto plano (`.txt`).
   - Envio automatizado para a fila de impressão padrão do sistema operacional, ideal para impressoras térmicas genéricas (Não-Fiscais).
 
+- **[📊] Relatórios e Gráficos:**
+  - **Relatório de Vendas:** Resumo financeiro contendo faturamento total, quantidade de itens vendidos e o total de notas registradas, exibido em uma tabela detalhada.
+  - **Relatório de Estoque:** Visão geral do inventário com soma da quantidade de itens e o valor total acumulado no estoque.
+  - **Exportação para CSV:** Geração de arquivos CSV com o histórico de vendas e dados do estoque para abertura em planilhas eletrônicas.
+  - **Gráficos Interativos:** Geração de gráficos no navegador web usando Plotly para visualização de métricas como "Faturamento por Item" e "Quantidade em Estoque por Item".
+
 ---
 
 ## 🛠️ Tecnologias
@@ -61,6 +67,8 @@ As seguintes ferramentas e bibliotecas foram utilizadas na construção do proje
 - **[Python](https://www.python.org/):** Linguagem core da aplicação.
 - **[PySimpleGUI](https://pysimplegui.readthedocs.io/):** Responsável por abstrair bibliotecas gráficas complexas e entregar a interface do usuário fluida e ágil.
 - **[SQLite3](https://docs.python.org/3/library/sqlite3.html):** Banco de dados relacional embarcado, garantindo que o software funcione de maneira portátil, sem necessidade de instalar um servidor de banco de dados (ex: MySQL, PostgreSQL).
+- **[Pandas](https://pandas.pydata.org/):** Utilizado para manipulação de dados em tabelas para os relatórios.
+- **[Plotly](https://plotly.com/python/):** Responsável por gerar os gráficos interativos dinâmicos que podem ser visualizados no navegador.
 
 ---
 
@@ -71,12 +79,14 @@ Para manter o código limpo, escalável e de fácil manutenção, o projeto foi 
 ```text
 Projeto 2 com UI/
 ├── App/
-│   ├── Banco/             # Arquivo do banco de dados SQLite persistente (base.db)
+│   ├── Banco/             # Arquivo do banco de dados SQLite persistente (base.db) e gráficos .html
 │   ├── Controller/        # Intermediários: Capturam eventos da View e chamam as regras de negócio
 │   │   ├── CadastrarNotaController.py
 │   │   ├── CadastroEstoqueController.py
 │   │   ├── ListarEstoqueController.py
-│   │   └── ListarNotaController.py
+│   │   ├── ListarNotaController.py
+│   │   ├── RelatorioEstoqueController.py
+│   │   └── RelatorioVendasController.py
 │   ├── Functions/         # Helpers e utilitários globais (ex: formatação de moeda R$)
 │   └── Model/             # Camada de Dados: Conexão e queries SQL encapsuladas
 │       └── Banco.py
@@ -115,8 +125,8 @@ $ venv\Scripts\activate
 # No Linux/MacOS:
 $ source venv/bin/activate
 
-# Instale as dependências (PySimpleGUI)
-$ pip install PySimpleGUI
+# Instale as dependências (PySimpleGUI, Pandas, Plotly)
+$ pip install PySimpleGUI pandas plotly
 
 # Execute a aplicação
 $ python main.py
@@ -132,8 +142,9 @@ Como o projeto está em desenvolvimento contínuo, aqui estão algumas melhorias
 - [x] Criação de uma tela para visualização de Produtos (Listagem de Estoque).
 - [x] Implementação de edição e exclusão de Produtos (CRUD Completo).
 - [x] Integração da Tela de Vendas com o Estoque (Baixa automática e busca de código).
-- [ ] Implementação de dashboard com gráficos básicos de faturamento diário/mensal.
-- [ ] Exportação do histórico de vendas para Excel/CSV.
+- [x] Exportação do histórico de vendas e de estoque para CSV.
+- [x] Implementação de gráficos básicos (Faturamento por item e Estoque por item).
+- [ ] Implementação de gráficos de faturamento diário/mensal.
 - [ ] Opção de configurar os dados do estabelecimento pela interface.
 
 ---

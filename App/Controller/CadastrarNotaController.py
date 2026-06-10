@@ -7,6 +7,7 @@ class CadastrarNotaController:
 
     def cadastrar_nota(self):
         layout_cadnota = [
+            [sg.Push(), sg.Image("./icones/vendas_100.png", pad=(0, 0)), sg.Push()],
     [sg.Frame(
         "Cadastro de Nota",
         [
