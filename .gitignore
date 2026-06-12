@@ -1,2 +1,9 @@
 /.sixth
 /__pycache__
+/.App/__pycache__
+/.App/Model/__pycache__
+/.App/Controller/__pycache__
+/.App/Functions/__pycache__
+/.App/Views/__pycache__
+/.App/Services/__pycache__
+
