@@ -58,6 +58,10 @@ O **PDV Notas** é um sistema desktop ágil e direto, projetado para atuar como 
   - **Exportação para CSV:** Geração de arquivos CSV com o histórico de vendas e dados do estoque para abertura em planilhas eletrônicas.
   - **Gráficos Interativos:** Geração de gráficos no navegador web usando Plotly para visualização de métricas como "Faturamento por Item" e "Quantidade em Estoque por Item".
 
+- **[🏢] Cadastro de Estabelecimento:**
+  - Interface dedicada para o registro dos dados da empresa/estabelecimento.
+  - Personalização das informações para o sistema.
+
 ---
 
 ## 🛠️ Tecnologias
@@ -145,7 +149,7 @@ Como o projeto está em desenvolvimento contínuo, aqui estão algumas melhorias
 - [x] Exportação do histórico de vendas e de estoque para CSV.
 - [x] Implementação de gráficos básicos (Faturamento por item e Estoque por item).
 - [ ] Implementação de gráficos de faturamento diário/mensal.
-- [ ] Opção de configurar os dados do estabelecimento pela interface.
+- [x] Opção de configurar os dados do estabelecimento pela interface.
 
 ---
 

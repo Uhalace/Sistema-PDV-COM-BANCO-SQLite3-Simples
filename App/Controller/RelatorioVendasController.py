@@ -28,7 +28,7 @@ class RelatorioVendas:
             sg.popup(
                 "Não há vendas registradas para gerar o relatório.",
                 title="Relatório de Vendas",
-                icon="./icones/nota.ico",
+                icon="./Icones/nota.ico",
             )
             return
 
@@ -117,7 +117,7 @@ class RelatorioVendas:
         window_relatorio = sg.Window(
             "Relatório de Vendas",
             layout_relatorio,
-            icon="./icones/nota.ico",
+            icon="./Icones/nota.ico",
             resizable=True,
             size=(1000, 650),
             finalize=True,
@@ -141,20 +141,20 @@ class RelatorioVendas:
             save_as=True,
             file_types=(("CSV Files", "*.csv"),),
             default_extension=".csv",
-            icon="./icones/nota.ico",
+            icon="./Icones/nota.ico",
         )
         if caminho:
             if not caminho.lower().endswith(".csv"):
                 caminho += ".csv"
             df_display.to_csv(caminho, index=False, sep=";")
-            sg.popup(f"Relatório salvo em:\n{caminho}", title="Exportação concluída", icon="./icones/nota.ico")
+            sg.popup(f"Relatório salvo em:\n{caminho}", title="Exportação concluída", icon="./Icones/nota.ico")
 
     def _abrir_grafico(self, df):
         if not PLOTLY_AVAILABLE:
             sg.popup_error(
                 "A biblioteca Plotly não está disponível para criar o gráfico.",
                 title="Relatório de Vendas",
-                icon="./icones/nota.ico",
+                icon="./Icones/nota.ico",
             )
             return
 

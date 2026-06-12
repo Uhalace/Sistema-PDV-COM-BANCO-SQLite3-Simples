@@ -82,7 +82,7 @@ class ListarEstoqueControler:
             window_edicao.close()
 
         layout_listagem = [
-            [sg.Push(), sg.Image("./icones/nota_100.png", pad=(0, 0)), sg.Push()],
+            [sg.Push(), sg.Image("./Icones/nota_100.png", pad=(0, 0)), sg.Push()],
             [sg.Push(),
              sg.Text(
                  "Listagem de Estoque",

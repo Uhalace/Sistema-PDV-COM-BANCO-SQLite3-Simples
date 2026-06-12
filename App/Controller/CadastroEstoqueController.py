@@ -32,7 +32,7 @@ class CadastrarEstoqueController:
              sg.Push()]
         ]
 
-        window_cadestoque = sg.Window("Cadastro de Estoque", layout_cadestoque, modal=True, icon="./icones/estoque.ico")
+        window_cadestoque = sg.Window("Cadastro de Estoque", layout_cadestoque, modal=True, icon="./Icones/nota.ico")
 
         while True:
             event, values = window_cadestoque.read()

@@ -5,12 +5,43 @@ from datetime import datetime
 import PySimpleGUI as sg
 
 from App.Functions.format import format_reais
+from App.Controller.CadEstabController import CadEstabController
+from App.Functions.formtcnpj import format_cnpj as CNP
+from App.Model.Banco import Banco
 
-ESTABELECIMENTO_NOME = "Loja Exemplo Ltda."
-ESTABELECIMENTO_CNPJ = "00.000.000/0000-00"
-ESTABELECIMENTO_IE = "123.456"
-ESTABELECIMENTO_ENDERECO = "Rua A, 0 - Centro - Cidade/UF"
-ESTABELECIMENTO_TELEFONE = "(00) 0000-0000"
+
+def _obter_dados_estabelecimento():
+    banco_estab = Banco()
+    estab_controller = CadEstabController(banco_estab)
+    estabelecimento = estab_controller.listar_estabelecimento()
+
+    if estabelecimento:
+        dados = {
+            'nome': estabelecimento[0][1],
+            'cnpj': CNP(estabelecimento[0][2]),
+            'ie': estabelecimento[0][4],
+            'endereco': estabelecimento[0][5],
+            'telefone': estabelecimento[0][3],
+        }
+    else:
+        dados = {
+            'nome': '',
+            'cnpj': '',
+            'ie': '',
+            'endereco': '',
+            'telefone': '',
+        }
+
+    banco_estab.fechar_conexao()
+    return dados
+
+# else:
+
+# ESTABELECIMENTO_NOME = "Loja Exemplo Ltda."
+# ESTABELECIMENTO_CNPJ = "00.000.000/0000-00"
+# ESTABELECIMENTO_IE = "123.456"
+# ESTABELECIMENTO_ENDERECO = "Rua A, 0 - Centro - Cidade/UF"
+# ESTABELECIMENTO_TELEFONE = "(00) 0000-0000"
 
 
 def _format_reais_inner(cents):
@@ -47,11 +78,13 @@ def imprimir_arquivo_nota(numero, linhas, total):
     now = datetime.now()
 
     try:
+        dados_estab = _obter_dados_estabelecimento()
+
         with tempfile.NamedTemporaryFile(delete=False, suffix='.txt', mode='w', encoding='utf-8') as arquivo:
-            arquivo.write(f"{ESTABELECIMENTO_NOME.center(line_length)}\n")
-            arquivo.write(f"{ESTABELECIMENTO_ENDERECO.center(line_length)}\n")
-            arquivo.write(f"CNPJ: {ESTABELECIMENTO_CNPJ}    IE: {ESTABELECIMENTO_IE}".center(line_length) + "\n")
-            arquivo.write(f"TEL: {ESTABELECIMENTO_TELEFONE.center(line_length - 5)}\n")
+            arquivo.write(f"{dados_estab['nome'].center(line_length)}\n")
+            arquivo.write(f"{dados_estab['endereco'].center(line_length)}\n")
+            arquivo.write(f"CNPJ: {dados_estab['cnpj']}    IE: {dados_estab['ie']}".center(line_length) + "\n")
+            arquivo.write(f"TEL: {dados_estab['telefone'].center(line_length - 5)}\n")
             arquivo.write("=" * line_length + "\n")
             arquivo.write(f"{'CUPOM FISCAL'.center(line_length)}\n")
             arquivo.write("=" * line_length + "\n")
@@ -85,16 +118,16 @@ def imprimir_arquivo_nota(numero, linhas, total):
         # Tenta imprimir o arquivo
         try:
             os.startfile(arquivo_path, 'print')
-            sg.popup('A nota foi enviada para impressão.', title='Sucesso')
+            sg.popup('A nota foi enviada para impressão.', title='Sucesso', icon="./Icones/nota.ico")
         except Exception as e:
             # Se falhar, tenta abrir com o programa padrão de texto
             try:
                 os.startfile(arquivo_path)
-                sg.popup(f'Arquivo criado em: {arquivo_path}\nAbra-o para imprimir.', title='Arquivo Criado')
+                sg.popup(f'Arquivo criado em: {arquivo_path}\nAbra-o para imprimir.', title='Arquivo Criado', icon="./Icones/nota.ico")
             except Exception as e2:
                 sg.popup(f'Erro ao imprimir: {e2}', title='Erro')
     except Exception as e:
-        sg.popup(f'Erro ao criar arquivo de impressão: {e}', title='Erro')
+        sg.popup(f'Erro ao criar arquivo de impressão: {e}', title='Erro', icon="./Icones/nota.ico")
 
 
 def formatar_vendas_para_tabela(vendas_nota):

@@ -7,7 +7,7 @@ class CadastrarNotaController:
 
     def cadastrar_nota(self):
         layout_cadnota = [
-            [sg.Push(), sg.Image("./icones/vendas_100.png", pad=(0, 0)), sg.Push()],
+            [sg.Push(), sg.Image("./Icones/nota_100.png", pad=(0, 0)), sg.Push()],
     [sg.Frame(
         "Cadastro de Nota",
         [
@@ -37,7 +37,7 @@ class CadastrarNotaController:
      sg.Push()]
      ]
 
-        window_cadnota = sg.Window("Cadastro de Nota", layout_cadnota, modal=True,  icon="./icones/nota.ico")
+        window_cadnota = sg.Window("Cadastro de Nota", layout_cadnota, modal=True,  icon="./Icones/nota.ico")
 
         while True:
             event, values = window_cadnota.read()
@@ -48,21 +48,21 @@ class CadastrarNotaController:
                 try:
                     numero_nota = int(values["nunota"])
                 except (ValueError, TypeError):
-                    sg.popup("Por favor, informe um número válido para a nota.", title="Erro", keep_on_top=True, icon="./icones/nota.ico")
+                    sg.popup("Por favor, informe um número válido para a nota.", title="Erro", keep_on_top=True, icon="./Icones/nota.ico")
                     continue
 
                 vendas_nota = self.banco.imprimir_nota(numero_nota)
                 if not vendas_nota:
-                    sg.popup("Nenhuma venda encontrada para esta nota.", title="Erro", keep_on_top=True, icon="./icones/nota.ico")
+                    sg.popup("Nenhuma venda encontrada para esta nota.", title="Erro", keep_on_top=True, icon="./Icones/nota.ico")
                     continue
 
                 try:
                     linhas, total_cents = formatar_vendas_para_tabela(vendas_nota)
                     imprimir_arquivo_nota(numero_nota, linhas, total_cents)
-                    sg.popup("Nota impressa com sucesso!", title="Sucesso", keep_on_top=True, icon="./icones/nota.ico")
+                    sg.popup("Nota impressa com sucesso!", title="Sucesso", keep_on_top=True, icon="./Icones/nota.ico")
                     window_cadnota["nunota"].update(self.banco.numero_nota_bd())
                 except Exception as e:
-                    sg.popup(f"Erro ao imprimir nota: {e}", title="Erro", keep_on_top=True, icon="./icones/nota.ico")
+                    sg.popup(f"Erro ao imprimir nota: {e}", title="Erro", keep_on_top=True, icon="./Icones/nota.ico")
             if event == "buscar":
                 codigo = values["codigo"]
                 item = self.banco.Bucar_item(codigo)

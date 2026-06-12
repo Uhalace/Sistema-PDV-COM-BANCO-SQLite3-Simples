@@ -102,7 +102,7 @@ class ListarNotaController:
         window_listagem = sg.Window(
             "Listagem de Vendas",
             layout_listagem,
-            icon="./icones/nota.ico",
+            icon="./Icones/nota.ico",
             resizable=True,
             size=(window_width, window_height),
             finalize=True,

@@ -29,6 +29,17 @@ class Banco:
                     valor INTEGER NOT NULL,
                     data_cadastro TEXT DEFAULT (DATE('now')))
                 """)
+        self.cursor.execute("""
+                           CREATE TABLE IF NOT EXISTS estabelecimento (
+                               id INTEGER PRIMARY KEY AUTOINCREMENT,
+                               nome VARCHAR(250),
+                               CNPJ VARCHAR(250),
+                               telefone VARCHAR (250),
+                               IE VARCHAR (250),
+                               endereco VARCHAR (250),
+                               data_cadastro TEXT DEFAULT (DATE('now'))
+                           )
+            """)
 
         self.conexao.commit()
 
@@ -108,8 +119,22 @@ class Banco:
     def excluir_estoque(self, id):
         self.cursor.execute("DELETE FROM estoque WHERE id = ?", (id,))
         self.conexao.commit()
+        
+    def cad_estabelecimento(self, nome, CNPJ, telefone, IE, endereco):
+        self.cursor.execute(
+            """
+            UPDATE estabelecimento
+            SET nome = ?, CNPJ = ?, telefone = ?, IE = ?, endereco = ?
+            WHERE id = 1
+            """,
+            (nome, CNPJ, telefone, IE, endereco)
+        )
 
-    
+        self.conexao.commit()
+
+    def listar_estabelecimento(self):
+        self.cursor.execute("SELECT * FROM estabelecimento WHERE id = 1")
+        return self.cursor.fetchall()
     
 
     def fechar_conexao(self):
