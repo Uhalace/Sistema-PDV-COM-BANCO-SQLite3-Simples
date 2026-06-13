@@ -148,7 +148,7 @@ Como o projeto está em desenvolvimento contínuo, aqui estão algumas melhorias
 - [x] Integração da Tela de Vendas com o Estoque (Baixa automática e busca de código).
 - [x] Exportação do histórico de vendas e de estoque para CSV.
 - [x] Implementação de gráficos básicos (Faturamento por item e Estoque por item).
-- [ ] Implementação de gráficos de faturamento diário/mensal.
+- [x] Implementação de gráficos de faturamento diário/mensal.
 - [x] Opção de configurar os dados do estabelecimento pela interface.
 
 ---

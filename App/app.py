@@ -10,7 +10,7 @@ from App.Model.Banco import Banco
 from App.Services.nota_printer import formatar_vendas_para_tabela, imprimir_arquivo_nota
 from App.Controller.CadastroEstoqueController import CadastrarEstoqueController
 from App.Controller.CadEstabController import CadEstabController
-
+from App.Controller.GraficoVendasController import GraficoVendasController
 
 
 def criar_janela_principal():
@@ -29,6 +29,7 @@ def criar_janela_principal():
          sg.Button("Relatório Estoque", size=(18, 2), font=("Segoe UI", 10, "bold"))],
         [sg.Push(), sg.Button("Relatório de Vendas", size=(18, 2), font=("Segoe UI", 10, "bold")), 
          sg.Button("Cadastrar Estabelecimento", size=(18, 2), font=("Segoe UI", 10, "bold")),
+         sg.Button("Relatôrio Vendas", size=(18, 2), font=("Segoe UI", 10, "bold")),
          sg.Push()],
         [sg.Push(), sg.Button("Sair", size=(18, 2), font=("Segoe UI", 10, "bold")), sg.Push()],
         [
@@ -352,5 +353,9 @@ def main():
         elif event == "Cadastrar Estabelecimento":
             cad_estab_controller = CadEstabController(banco)
             cad_estab_controller.cadastrar_estabelecimento()
+        elif event == "Relatôrio Vendas":
+            grafico_vendas_controller = GraficoVendasController()
+            grafico_vendas_controller.gerar_grafico(2026)
+
     window.close()
     banco.fechar_conexao()
