@@ -142,14 +142,12 @@ $ python main.py
 
 Como o projeto está em desenvolvimento contínuo, aqui estão algumas melhorias mapeadas para o futuro:
 
-- [x] Criação de uma tela de gerenciamento de Produtos (Cadastro de Estoque).
-- [x] Criação de uma tela para visualização de Produtos (Listagem de Estoque).
-- [x] Implementação de edição e exclusão de Produtos (CRUD Completo).
-- [x] Integração da Tela de Vendas com o Estoque (Baixa automática e busca de código).
-- [x] Exportação do histórico de vendas e de estoque para CSV.
-- [x] Implementação de gráficos básicos (Faturamento por item e Estoque por item).
-- [x] Implementação de gráficos de faturamento diário/mensal.
-- [x] Opção de configurar os dados do estabelecimento pela interface.
+- [ ] **Controle de Usuários:** Implementar um sistema de login para diferentes vendedores.
+- [ ] **Permissões de Acesso:** Diferenciar o que cada tipo de usuário pode fazer (ex: admin vs. vendedor).
+- [ ] **Backup e Restauração:** Adicionar uma função para fazer backup do banco de dados e restaurá-lo.
+- [ ] **Personalização de Cupom:** Permitir que o usuário personalize o layout do cupom de venda.
+- [ ] **Histórico de Alterações de Estoque:** Registrar todas as entradas e saídas de produtos.
+- [ ] **Suporte a Leitor de Código de Barras:** Melhorar a agilidade na venda com suporte a leitores de código de barras.
 
 ---
 

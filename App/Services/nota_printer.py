@@ -1,4 +1,6 @@
 import os
+import platform
+import subprocess
 import tempfile
 from datetime import datetime
 
@@ -15,13 +17,15 @@ def _obter_dados_estabelecimento():
     estab_controller = CadEstabController(banco_estab)
     estabelecimento = estab_controller.listar_estabelecimento()
 
+    # listar_estabelecimento() usa fetchone() → retorna uma tupla simples, não lista de tuplas
+    # Estrutura: (id, nome, CNPJ, telefone, IE, endereco, data_cadastro)
     if estabelecimento:
         dados = {
-            'nome': estabelecimento[0][1],
-            'cnpj': CNP(estabelecimento[0][2]),
-            'ie': estabelecimento[0][4],
-            'endereco': estabelecimento[0][5],
-            'telefone': estabelecimento[0][3],
+            'nome': estabelecimento[1],
+            'cnpj': CNP(estabelecimento[2]),
+            'telefone': estabelecimento[3],
+            'ie': estabelecimento[4],
+            'endereco': estabelecimento[5],
         }
     else:
         dados = {
@@ -115,17 +119,38 @@ def imprimir_arquivo_nota(numero, linhas, total):
             arquivo.write("=" * line_length + "\n")
             arquivo_path = arquivo.name
 
-        # Tenta imprimir o arquivo
+        # Impressão multiplataforma
         try:
-            os.startfile(arquivo_path, 'print')
+            sistema = platform.system()
+
+            if sistema == "Windows":
+                # notepad /p imprime silenciosamente e fecha automaticamente
+                try:
+                    subprocess.run(["notepad.exe", "/p", arquivo_path], timeout=15)
+                except subprocess.TimeoutExpired:
+                    pass  # Notepad às vezes demora, mas a impressão já foi enviada
+
+            elif sistema == "Darwin":  # macOS
+                subprocess.run(["lpr", arquivo_path], timeout=15)
+
+            elif sistema == "Linux":
+                subprocess.run(["lp", arquivo_path], timeout=15)
+
+            else:
+                raise OSError(f"Sistema operacional não suportado para impressão: {sistema}")
+
             sg.popup('A nota foi enviada para impressão.', title='Sucesso', icon="./Icones/nota.ico")
+
+        except OSError as e:
+            sg.popup(str(e), title='Erro')
         except Exception as e:
-            # Se falhar, tenta abrir com o programa padrão de texto
+            sg.popup(f'Erro ao imprimir: {e}', title='Erro')
+        finally:
+            # Remove o arquivo temporário — não deixa .txt salvo
             try:
-                os.startfile(arquivo_path)
-                sg.popup(f'Arquivo criado em: {arquivo_path}\nAbra-o para imprimir.', title='Arquivo Criado', icon="./Icones/nota.ico")
-            except Exception as e2:
-                sg.popup(f'Erro ao imprimir: {e2}', title='Erro')
+                os.remove(arquivo_path)
+            except Exception:
+                pass
     except Exception as e:
         sg.popup(f'Erro ao criar arquivo de impressão: {e}', title='Erro', icon="./Icones/nota.ico")
 
