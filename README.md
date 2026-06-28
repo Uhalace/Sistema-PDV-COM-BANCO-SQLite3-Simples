@@ -147,7 +147,7 @@ Como o projeto está em desenvolvimento contínuo, aqui estão algumas melhorias
 - [ ] **Backup e Restauração:** Adicionar uma função para fazer backup do banco de dados e restaurá-lo.
 - [ ] **Personalização de Cupom:** Permitir que o usuário personalize o layout do cupom de venda.
 - [ ] **Histórico de Alterações de Estoque:** Registrar todas as entradas e saídas de produtos.
-- [ ] **Suporte a Leitor de Código de Barras:** Melhorar a agilidade na venda com suporte a leitores de código de barras.
+- [X] **Suporte a Leitor de Código de Barras:** Melhorar a agilidade na venda com suporte a leitores de código de barras.
 
 ---
 
