@@ -1,2 +1,4 @@
 .sixth/
 **/__pycache__/
+.env
+base.db

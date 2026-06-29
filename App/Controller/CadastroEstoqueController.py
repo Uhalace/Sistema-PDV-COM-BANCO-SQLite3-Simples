@@ -1,4 +1,5 @@
 import PySimpleGUI as sg
+from App.Api.Api import obter_nome_produto
 
 class CadastrarEstoqueController:
     def __init__(self, banco):
@@ -10,7 +11,7 @@ class CadastrarEstoqueController:
                 "Cadastro de Estoque",
                 [
                     [sg.Text("Código do item:", size=(15, 1)),
-                     sg.Input(key="codigo")],
+                     sg.Input(key="codigo", focus=True)],
 
                     [sg.Text("Nome do item:", size=(15, 1)),
                      sg.Input(key="item")],
@@ -32,14 +33,25 @@ class CadastrarEstoqueController:
              sg.Push()]
         ]
 
-        window_cadestoque = sg.Window("Cadastro de Estoque", layout_cadestoque, modal=True, icon="./Icones/nota.ico")
-
+        window_cadestoque = sg.Window("Cadastro de Estoque", layout_cadestoque, modal=True, icon="./Icones/nota.ico", finalize=True)
+        
+        window_cadestoque["codigo"].bind("<Return>", "_enter")
+        
+        window_cadestoque.refresh()
+        window_cadestoque["codigo"].set_focus()
+        
         while True:
             event, values = window_cadestoque.read()
 
             if event in (sg.WIN_CLOSED, "Cancelar"):
                 break
-
+                
+            if event == "codigo_enter":
+                codigo = values["codigo"]
+                codigo_produto = obter_nome_produto(codigo)
+                window_cadestoque["item"].update(codigo_produto)
+                window_cadestoque["valor"].set_focus()
+                
             if event == "Salvar":
                 try:
                     codigo = int(values["codigo"])
@@ -64,4 +76,3 @@ class CadastrarEstoqueController:
                     window_cadestoque["msg"].update(f"Erro ao cadastrar item: {e}")
 
         window_cadestoque.close()
-
