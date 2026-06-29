@@ -22,7 +22,7 @@
 
 ## 💻 Sobre o Projeto
 
-O **PDV Notas** é um sistema desktop ágil e direto, projetado para atuar como um Ponto de Venda (PDV) com foco em emissão de notas/cupons não fiscais e controle de estoque integrado. Voltado para pequenos comércios ou prestadores de serviços, o aplicativo oferece uma interface limpa para realizar vendas, abater o estoque automaticamente, gerenciar produtos e emitir comprovantes impressos.
+O **PDV Notas** é um sistema desktop ágil e direto, projetado para atuar como um Ponto de Venda (PDV) com foco em emissão de notas/cupons não fiscais e controle de estoque integrado. Voltado para pequenos comércios ou prestadores de serviços, o aplicativo oferece uma interface limpa para realizar vendas, abater o estoque automaticamente, gerenciar produtos (CRUD), emitir comprovantes impressos, e gerar relatórios e gráficos interativos de vendas e estoque. O sistema também integra com APIs externas para busca de produtos, otimizando o processo de cadastro e venda.
 
 *Nota: Este projeto possui fins de estudo e facilitação de fluxos simples comerciais. Os cupons gerados não possuem validade fiscal (NFC-e/SAT).*
 
@@ -61,6 +61,12 @@ O **PDV Notas** é um sistema desktop ágil e direto, projetado para atuar como 
 - **[🏢] Cadastro de Estabelecimento:**
   - Interface dedicada para o registro dos dados da empresa/estabelecimento.
   - Personalização das informações para o sistema.
+
+---
+
+## 🌐 Integração com API Externa
+
+Para utilizar as funcionalidades que dependem da API externa, como a busca de produtos por código de barras ou NCM, é necessário criar uma conta gratuita no site [Cosmos Bluesoft API](https://cosmos.bluesoft.com.br/api). Após o registro, você obterá as credenciais necessárias para configurar a integração no sistema.
 
 ---
 
